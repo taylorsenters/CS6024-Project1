@@ -1,8 +1,7 @@
 # CS6024 Project 1: A World of Data
 
 **Author:** Taylor Senters  
-**Live Application:** [https://taylorsenters-cs-6024-project1.vercel.app/](https://taylorsenters-cs-6024-project1.vercel.app/)
-**Documentation Video:** 
+**Live Application:** [https://taylorsenters-cs-6024-project1.vercel.app/](https://taylorsenters-cs-6024-project1.vercel.app/) 
 
 ## Project Overview
 This project is an interactive web-based data visualization dashboard built with **D3.js, JavaScript, HTML, and CSS**. It allows a general audience to explore and compare country-level data across various metrics. The dashboard features multiple linked views, enabling users to analyze distributions, correlations, and spatial patterns across the globe.
