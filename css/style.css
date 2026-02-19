@@ -1,0 +1,86 @@
+/* Variables and colors for app layout/theme */
+:root {
+    --bg-app: #f4f7f6;
+    --bg-card: #ffffff;
+    --text-primary: #2c3e50;
+    --text-muted: #bdc3c7;
+    --border-color: #ddd;
+    --gap-size: 12px;
+    --header-height: auto;
+}
+
+/* global reset for box sizing and default margin/padding */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body, html {
+    /* sets full viewport height and width */
+    height: 100vh;
+    width: 100vw;
+    font-family: sans-serif;
+    overflow: hidden; /* prevents scrolling */
+    background-color: var(--bg-app);
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--gap-size);
+    gap: var(--gap-size);
+}
+
+.main-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+    flex-shrink: 0;
+}
+    
+.main-header h1 { font-size: 1.5rem; color: var(--text-primary); margin-bottom: 4px; }
+.main-header h2 { font-size: 1.1rem; color: var(--text-primary); font-weight: 500; }
+.main-header h3 { font-size: 0.9rem; color: var(--text-primary); opacity: 0.8; }
+
+.content-grid {
+    display: grid;
+    flex-grow: 1; 
+    gap: var(--gap-size);
+    min-height: 0;
+    /* set columns and rows to layout visualizations */
+    grid-template-columns: repeat(3, minmax(0, 1fr)); 
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+/* layout visualization to fit grid */
+#map-1 { grid-column: 1; grid-row: 1; }
+#map-2 { grid-column: 2; grid-row: 1; }
+#scatter-plot { grid-column: 3; grid-row: 1 / -1; }
+#histogram-1 { grid-column: 1; grid-row: 2; }
+#histogram-2 { grid-column: 2; grid-row: 2; }
+
+.histogram, .scatterplot, .map {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    /* allow for visulizations to resize with page */
+    width: 100%;
+    height: 100%; 
+    min-width: 0; 
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+}
