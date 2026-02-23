@@ -48,8 +48,8 @@ let globalData = [];
 let socialChart, healthChart, socialMap, healthMap, scatter;
 
 Promise.all([
-    d3.csv('./data/combined_womens_health_data_cleaned.csv'),
-    d3.json('./data/world.geojson')
+    d3.csv('/data/combined_womens_health_data_cleaned.csv'),
+    d3.json('/data/world.geojson')
 ]).then(([data, geoData]) => {
     data.forEach(d => {
         d.Year = +d.Year;
