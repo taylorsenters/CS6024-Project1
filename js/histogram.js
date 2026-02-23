@@ -73,7 +73,6 @@ class Histogram {
         let vis = this;
 
         vis.xLabelText.text(vis.config.xLabel);
-        console.log(`${vis.config.parentElement} received: ${vis.data.length} items`);
 
         const xValue = d => d[vis.config.key];
         vis.xScale.domain(d3.extent(vis.data, xValue)).nice();
@@ -84,9 +83,6 @@ class Histogram {
             .thresholds(10);
         
         vis.bins = histogramGenerator(vis.data);
-
-        const totalInBins = d3.sum(vis.bins, d => d.length);
-        console.log(`${vis.config.parentElement} binned: ${totalInBins} items`);
 
         vis.yScale.domain([0, d3.max(vis.bins, d => d.length)]);
 

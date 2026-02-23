@@ -105,7 +105,7 @@ Promise.all([
         colorDomain: healthConf.domain
     }, filteredData);
 
-  /*   socialMap = new ChoroplethMap({
+    socialMap = new ChoroplethMap({
         parentElement: '#map-1',
         key: socialConf.column,
         title: socialConf.title,
@@ -119,14 +119,14 @@ Promise.all([
         title: healthConf.title,
         colorPalette: healthConf.palette,
         colorDomain: healthConf.domain
-    }, geoData, filteredData); */
+    }, geoData, filteredData);
 
     const resizeObserver = new ResizeObserver(entries => {
         window.requestAnimationFrame(() => {
             socialChart.resize();
             healthChart.resize();
-/*             socialMap.resize();
-            healthMap.resize(); */
+            socialMap.resize();
+            healthMap.resize();
             scatter.resize();
         });
     });
@@ -135,8 +135,8 @@ Promise.all([
     resizeObserver.observe(document.querySelector('#histogram-1'));
     resizeObserver.observe(document.querySelector('#histogram-2'));
     resizeObserver.observe(document.querySelector('#scatter-plot'));
-/*     resizeObserver.observe(document.querySelector('#map-1'));
-    resizeObserver.observe(document.querySelector('#map-2')); */
+    resizeObserver.observe(document.querySelector('#map-1'));
+    resizeObserver.observe(document.querySelector('#map-2'));
 
     d3.selectAll('#social-factor-select, #health-factor-select, #year-slider').on('change input', function() {
         if (this.id === 'year-slider') {
@@ -158,20 +158,6 @@ function updateAllCharts() {
 
     const yearData = globalData.filter(d => d.Year === currentYear);
 
-    /* const filteredData = yearData.filter(d => 
-        d[socialConf.column] !== null && 
-        d[healthConf.column] !== null
-    ); */
-
-    const filteredData = yearData.filter(d => {
-        const val1 = d[socialConf.column];
-        const val2 = d[healthConf.column];
-        return val1 !== null && val2 !== null && !isNaN(val1) && !isNaN(val2);
-    });
-
-    console.log("Master Filter Count:", filteredData.length);
-
-
     socialChart.config.key = socialConf.column;
     socialChart.config.xLabel = socialConf.title;
     socialChart.config.color = socialConf.palette[2];
@@ -187,7 +173,7 @@ function updateAllCharts() {
     scatter.config.colorPalette = healthConf.palette;
     scatter.config.colorDomain = healthConf.domain;
 
-/*     socialMap.config.key = socialConf.column;
+    socialMap.config.key = socialConf.column;
     socialMap.config.title = socialConf.title;
     socialMap.config.colorPalette = socialConf.palette;
     socialMap.config.colorDomain = socialConf.domain;
@@ -195,12 +181,12 @@ function updateAllCharts() {
     healthMap.config.key = healthConf.column;
     healthMap.config.title = healthConf.title;
     healthMap.config.colorPalette = healthConf.palette;
-    healthMap.config.colorDomain = healthConf.domain; */
+    healthMap.config.colorDomain = healthConf.domain;
 
 
-    socialChart.update(filteredData);
-    healthChart.update(filteredData);
-    scatter.update(filteredData);
-/*     socialMap.update(filteredData);
-    healthMap.update(filteredData); */
+    socialChart.update(yearData);
+    healthChart.update(yearData);
+    scatter.update(yearData);
+    socialMap.update(yearData);
+    healthMap.update(yearData);
 }
