@@ -14,14 +14,15 @@ This project is an interactive web-based data visualization dashboard built with
 
 ## Current Progress & Features
 
-### ✅ Implemented (Level 1 & Baseline)
+### ✅ Implemented 
 * **Application Layout:** Clean, single-page dashboard layout built with CSS (no scrolling required to compare charts).
 * **Distribution Views (Visualizations 1 & 2):** Two histograms/bar charts displaying the distribution of the selected quantitative attributes.
 * **Correlation View (Visualization 3):** A scatterplot comparing the two selected attributes against each other to identify potential correlations.
+* **Color Scheme.** Implemented intentional, data-driven color scales 
+* **Attribute Selection Menu.** Built a UI dropdown/menu allowing users to dynamically swap out the dataset attributes being visualized.
+* **Time Slider** Added a time slider to allow users to select which year to see data for
 
 ### 🚧 Work in Progress (Levels 2 - 5)
 - [ ] **Level 2: Spatial Distribution.** Add side-by-side Choropleth maps to show how these attributes are distributed globally.
-- [ ] **Level 2: Color Scheme.** Implement intentional, data-driven color scales 
-- [ ] **Level 3: Attribute Selection Menu.** Build a UI dropdown/menu allowing users to dynamically swap out the dataset attributes being visualized.
 - [ ] **Level 4: Detail-on-Demand.** Add interactive tooltips/hover effects to the histograms, scatterplot, and map to display specific country names and exact values.
 - [ ] **Level 5: Brushing & Linking.** Implement D3 brushing on the distribution and scatterplot visualizations to filter the selected countries across *all* active charts.

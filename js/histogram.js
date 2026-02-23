@@ -6,6 +6,7 @@ class Histogram {
             margin: {top: 40, bottom: 60, right: 30, left: 60},
             key: _config.key,
             xLabel: _config.xLabel, 
+            color: _config.color || '#5EAAA8',
             yLabel: "Count of Countries",
             tooltipPadding: _config.tooltipPadding || 15
         }
@@ -46,14 +47,13 @@ class Histogram {
         vis.yAxisGroup = vis.chart.append('g')
             .attr('class', 'axis y-axis');
 
-        vis.svg.append("text")
+        vis.xLabelText = vis.svg.append("text")
             .attr("class", "x-label")
             .attr("text-anchor", "middle")
             .attr("x", vis.config.containerWidth / 2)
-            .attr("y", vis.config.containerHeight - 10) 
-            .text(vis.config.xLabel);
+            .attr("y", vis.config.containerHeight - 10);
 
-        vis.svg.append("text")
+        vis.yLabelText = vis.svg.append("text")
             .attr("class", "y-label")
             .attr("text-anchor", "middle")
             .attr("y", 20)
@@ -64,37 +64,64 @@ class Histogram {
         vis.updateVis();
     }
 
+    update(newData) {
+        this.data = newData;
+        this.updateVis();
+    }
+
     updateVis() {
         let vis = this;
+
+        vis.xLabelText.text(vis.config.xLabel);
+        console.log(`${vis.config.parentElement} received: ${vis.data.length} items`);
 
         const xValue = d => d[vis.config.key];
         vis.xScale.domain(d3.extent(vis.data, xValue)).nice();
 
         const histogramGenerator = d3.bin()
             .value(xValue)
-            .domain(vis.xScale.domain());
+            .domain(vis.xScale.domain())
+            .thresholds(10);
         
         vis.bins = histogramGenerator(vis.data);
 
+        const totalInBins = d3.sum(vis.bins, d => d.length);
+        console.log(`${vis.config.parentElement} binned: ${totalInBins} items`);
+
         vis.yScale.domain([0, d3.max(vis.bins, d => d.length)]);
 
-        vis.xAxisGroup.call(d3.axisBottom(vis.xScale));
-        vis.yAxisGroup.call(d3.axisLeft(vis.yScale));
+        vis.xAxisGroup.transition().duration(500).call(d3.axisBottom(vis.xScale));
+        vis.yAxisGroup.transition().duration(500).call(d3.axisLeft(vis.yScale));
 
         const bars = vis.chart.selectAll('.bar')
-            .data(vis.bins);
-        
-        bars.enter().append('rect')
-            .attr('class', 'bar')
-            .merge(bars)
-            .attr('x', d => vis.xScale(d.x0) + 1)
-            .attr('width', d => Math.max(0, vis.xScale(d.x1) - vis.xScale(d.x0) - 1))
-            .attr('y', d => vis.yScale(d.length))
-            .attr('height', d => vis.height - vis.yScale(d.length))
-            .attr('fill', '#69b3a2');
-
-        bars.exit().remove();
-
+            .data(vis.bins)
+            .join(
+            enter => enter.append('rect')
+                .attr('class', 'bar')
+                .attr('x', d => vis.xScale(d.x0) + 1)
+                .attr('width', d => Math.max(0, vis.xScale(d.x1) - vis.xScale(d.x0) - 1))
+                .attr('y', vis.height) 
+                .attr('height', 0)
+                .attr('fill', vis.config.color)
+                .call(enter => enter.transition().duration(500)
+                    .attr('y', d => vis.yScale(d.length))
+                    .attr('height', d => vis.height - vis.yScale(d.length))
+                ),
+            update => update
+                .call(update => update.transition().duration(500)
+                    .attr('x', d => vis.xScale(d.x0) + 1)
+                    .attr('width', d => Math.max(0, vis.xScale(d.x1) - vis.xScale(d.x0) - 1))
+                    .attr('y', d => vis.yScale(d.length))
+                    .attr('height', d => vis.height - vis.yScale(d.length))
+                    .attr('fill', vis.config.color) 
+                ),
+            exit => exit
+                .call(exit => exit.transition().duration(500)
+                    .attr('y', vis.height)
+                    .attr('height', 0)
+                    .remove()
+                )
+            );
     }
 // delete and remake to resize as page resizes
     resize() {

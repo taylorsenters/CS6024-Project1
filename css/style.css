@@ -47,8 +47,110 @@ body, html {
 }
     
 .main-header h1 { font-size: 1.5rem; color: var(--text-primary); margin-bottom: 4px; }
-.main-header h2 { font-size: 1.1rem; color: var(--text-primary); font-weight: 500; }
+.main-header h2 { font-size: 1.1rem; color: var(--text-primary); font-weight: 500; margin-bottom: 4px;}
 .main-header h3 { font-size: 0.9rem; color: var(--text-primary); opacity: 0.8; }
+
+.selections {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.selections-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selections label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+#year-display {
+    color: #5EAAA8;
+    font-weight: bold;
+}
+
+.selections select {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    outline: none;
+}
+
+.selections select:hover {
+    border-color: #bdc3c7;
+}
+
+.selections select:focus {
+    border-color: #5EAAA8;
+    box-shadow: 0 0 0 2px rgba(94m 170, 168, 0.2);
+}
+
+.selections input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 160px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.selections input[type="range"]:focus {
+    outline: none;
+}
+
+.selections input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: 4px;
+}
+.selections input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.selections input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #5EAAA8;
+    margin-top: -5px; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.1s;
+}
+.selections input[type="range"]::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #5EAAA8;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.1s;
+}
+
+.selections input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+.selections input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.2);
+}
 
 .content-grid {
     display: grid;

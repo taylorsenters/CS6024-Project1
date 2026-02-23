@@ -7,6 +7,8 @@ class Scatterplot {
             yKey: _config.yKey,
             xLabel: _config.xLabel, 
             yLabel: _config.yLabel,
+            colorPalette: _config.colorPalette,
+            colorDomain: _config.colorDomain,
             tooltipPadding: _config.tooltipPadding || 15
         }
         this.data = _data;
@@ -52,14 +54,13 @@ class Scatterplot {
         vis.yAxisGroup = vis.chart.append('g')
             .attr('class', 'axis y-axis');
         
-        vis.svg.append("text")
+        vis.xLabelText = vis.svg.append("text")
             .attr("class", "x-label")
             .attr("text-anchor", "middle")
             .attr("x", vis.config.containerWidth / 2)
-            .attr("y", vis.config.containerHeight - 10)
-            .text(vis.config.xLabel);
+            .attr("y", vis.config.containerHeight - 10);
 
-        vis.svg.append("text")
+        vis.yLabelText = vis.svg.append("text")
             .attr("class", "y-label")
             .attr("text-anchor", "middle")
             .attr("y", 20)
@@ -70,33 +71,70 @@ class Scatterplot {
         vis.updateVis();
     }
 
+    update(newData) {
+        this.data = newData;
+        this.updateVis();
+    }
+
     updateVis() {
         let vis = this;
+
+        vis.xLabelText.text(vis.config.xLabel);
+        vis.yLabelText.text(vis.config.yLabel);
+
+        let filteredData = vis.data.filter(d => 
+            d[vis.config.xKey] != null && !isNaN(d[vis.config.xKey]) &&
+            d[vis.config.yKey] != null && !isNaN(d[vis.config.yKey])
+        );
 
         const xValue = d => d[vis.config.xKey];
         const yValue = d => d[vis.config.yKey];
 
-        vis.xScale.domain(d3.extent(vis.data, xValue)).nice();
-        vis.yScale.domain(d3.extent(vis.data, yValue)).nice();
+        vis.xScale.domain(d3.extent(filteredData, xValue)).nice();
+        vis.yScale.domain(d3.extent(filteredData, yValue)).nice();
 
-        vis.xAxisGroup.call(vis.xAxis);
-        vis.yAxisGroup.call(vis.yAxis);
+        vis.colorScale = d3.scaleLinear()
+            .domain(vis.config.colorDomain)
+            .range(vis.config.colorPalette);
+
+        vis.xAxisGroup.transition().duration(500).call(vis.xAxis);
+        vis.yAxisGroup.transition().duration(500).call(vis.yAxis);
 
     const circles = vis.chart.selectAll('.point')
-            .data(vis.data);
-
-        circles.enter().append('circle')
-            .attr('class', 'point')
-            .merge(circles)
-            .attr('r', 4) 
-            .attr('cx', d => vis.xScale(xValue(d)))
-            .attr('cy', d => vis.yScale(yValue(d)))
-            .attr('fill', '#69b3a2')
-            .attr('fill-opacity', 0.6) 
-            .attr('stroke', '#333');   
-
-        circles.exit().remove();
-
+            .data(filteredData, d => d.Code) 
+            .join(
+                enter => enter.append('circle')
+                    .attr('class', 'point')
+                    .attr('r', 0)
+                    .attr('cx', d => vis.xScale(xValue(d)))
+                    .attr('cy', d => vis.yScale(yValue(d)))
+                    .attr('fill', d => vis.colorScale(yValue(d)))
+                    .attr('fill-opacity', 0)
+                    .attr('stroke', '#333')
+                    .attr('stroke-width', 0.5)
+                    .attr('stroke-opacity', 0)
+                    .call(enter => enter.transition().duration(500)
+                        .attr('r', 4) 
+                        .attr('fill-opacity', 0.6)
+                        .attr('stroke-opacity', 1) 
+                    ),
+                update => update
+                    .call(update => update.transition().duration(500)
+                        .attr('cx', d => vis.xScale(xValue(d)))
+                        .attr('cy', d => vis.yScale(yValue(d)))
+                        .attr('fill', d => vis.colorScale(yValue(d)))
+                        .attr('r', 4) 
+                        .attr('fill-opacity', 0.6)
+                        .attr('stroke-opacity', 1) 
+                    ),
+                exit => exit
+                    .call(exit => exit.transition().duration(500)
+                        .attr('r', 0) 
+                        .attr('fill-opacity', 0) 
+                        .attr('stroke-opacity', 0)
+                        .remove()
+                    )
+            );
     }
 
     resize() {
