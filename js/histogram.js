@@ -118,6 +118,29 @@ class Histogram {
                     .remove()
                 )
             );
+        
+        bars
+            .on('mouseover', function(event,d) {
+                let countryList = d.map(item => item.Entity).join(', ');
+                d3.select('#tooltip').transition().duration(200).style('opacity', 0.95);
+                d3.select('#tooltip').html(`
+                    <strong>Bin Range:</strong> ${d.x0} - ${d.x1}<br/>
+                    <strong>Count:</strong> ${d.length} countries<br/>
+                    <div style="max-width: 250px; font-size: 11px; margin-top: 5px; color: #666;">
+                        ${countryList || 'None'}
+                    </div>
+                `)
+                positionTooltip(event);
+                
+                d3.select(this).attr('stroke', '#333').attr('stroke-width', 2); 
+            })
+            .on('mousemove', function(event) {
+                positionTooltip(event);
+            })
+            .on('mouseleave', function() {
+                d3.select('#tooltip').transition().duration(500).style('opacity', 0);
+                d3.select(this).attr('stroke', 'none');
+            });
     }
 // delete and remake to resize as page resizes
     resize() {

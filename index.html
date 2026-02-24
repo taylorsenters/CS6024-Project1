@@ -19,8 +19,8 @@
                         <label for="social-factor-select">Social Factor:</label>
                         <select id="social-factor-select">
                             <option value="schooling">Average Years of Schooling</option>
-                            <option value="political">Political Empowerment Index</option>
-                            <option value="labor">Female to Male Labor Force Ratio</option>
+                            <option value="birth">Adolescent Birth Rate</option>
+                            <option value="tertiary-education">Women in Tertiary Education (%)</option>
                         </select>
                     </div>
                     <div class="selections-group">
@@ -28,7 +28,7 @@
                         <select id="health-factor-select">
                             <option value="mortality">Maternal Mortality Ratio</option>
                             <option value="antenatal">Antenatal Care Coverage (%)</option>
-                            <option value="contraception">Unmet Need for Contraception (%)</option>
+                            <option value="anemia">Anemia Prevalence in Women (%)</option>
                         </select>
                     </div>
 
@@ -50,6 +50,8 @@
                 <div id="map-2" class="map"> </div>
             </main>
         </div>
+
+        <div id="tooltip"></div>
         
         <script src="js/d3.v6.min.js"></script>
 

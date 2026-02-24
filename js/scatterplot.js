@@ -135,6 +135,26 @@ class Scatterplot {
                         .remove()
                     )
             );
+    
+    circles
+        .on('mouseover', function(event, d) {
+        d3.select('#tooltip').transition().duration(200).style('opacity', 0.95);
+        d3.select('#tooltip').html(`
+            <strong style="font-size: 14px;">${d.Entity}</strong><br/>
+            <strong>${vis.config.xLabel}:</strong> ${d[vis.config.xKey]}<br/>
+            <strong>${vis.config.yLabel}:</strong> ${d[vis.config.yKey]}
+        `)
+        positionTooltip(event);
+        
+        d3.select(this).attr('stroke', '#000').attr('stroke-width', 2);
+    })
+    .on('mousemove', function(event) {
+        positionTooltip(event);
+    })
+    .on('mouseleave', function() {
+        d3.select('#tooltip').transition().duration(500).style('opacity', 0);
+        d3.select(this).attr('stroke', '#333').attr('stroke-width', 1); 
+    });
     }
 
     resize() {

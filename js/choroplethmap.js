@@ -103,9 +103,7 @@ class ChoroplethMap {
 
         vis.dataMap = new Map();
         vis.data.forEach(d => {
-            if (d[vis.config.key] != null && !isNaN(d[vis.config.key])) {
-                vis.dataMap.set(d.Code, d[vis.config.key]);
-            }
+            vis.dataMap.set(d.Code, d); 
         });
 
         vis.colorScale = d3.scaleLinear()
@@ -121,13 +119,52 @@ class ChoroplethMap {
             .transition().duration(500)
             .attr('fill', d => {
                 let isoCode = d.id; 
-                let value = vis.dataMap.get(isoCode);
+                let row = vis.dataMap.get(isoCode);
                 
-                if (value !== undefined) {
-                    return vis.colorScale(value);
+                if (row !== undefined && row[vis.config.key] != null && !isNaN(row[vis.config.key])) {
+                    return vis.colorScale(row[vis.config.key]);
                 } else {
                     return `url(#${vis.patternId})`;
                 }
+            });
+        
+        vis.countryPaths
+            .on('mouseover', function(event, d) {
+                let isoCode = d.id;
+                let row = vis.dataMap.get(isoCode);
+                
+                // Get the current global selections to know what labels/columns to show
+                const currentSocial = document.getElementById('social-factor-select').value;
+                const currentHealth = document.getElementById('health-factor-select').value;
+                const socialConf = metricConfig[currentSocial];
+                const healthConf = metricConfig[currentHealth];
+
+                // Attempt to get country name from GeoJSON, fallback to CSV Entity
+                let countryName = (d.properties && d.properties.name) ? d.properties.name : (row ? row.Entity : isoCode);
+                
+                let tooltipHtml = `<strong style="font-size: 14px;">${countryName}</strong><br/>`;
+                
+                if (row) {
+                    let sVal = row[socialConf.column] !== null ? row[socialConf.column] : "No data";
+                    let hVal = row[healthConf.column] !== null ? row[healthConf.column] : "No data";
+                    tooltipHtml += `<strong>${socialConf.title}:</strong> ${sVal}<br/>`;
+                    tooltipHtml += `<strong>${healthConf.title}:</strong> ${hVal}`;
+                } else {
+                    tooltipHtml += `<em>No data available</em>`;
+                }
+
+                d3.select('#tooltip').transition().duration(200).style('opacity', 0.95);
+                d3.select('#tooltip').html(tooltipHtml)
+                    positionTooltip(event);
+                    
+                d3.select(this).attr('stroke', '#333').attr('stroke-width', 1.5);
+            })
+            .on('mousemove', function(event) {
+                positionTooltip(event);
+            })
+            .on('mouseleave', function() {
+                d3.select('#tooltip').transition().duration(500).style('opacity', 0);
+                d3.select(this).attr('stroke', '#ffffff').attr('stroke-width', 0.5);
             });
 
         vis.linearGradient.selectAll('stop')

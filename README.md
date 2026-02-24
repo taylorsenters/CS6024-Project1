@@ -21,8 +21,8 @@ This project is an interactive web-based data visualization dashboard built with
 * **Spatial Distribution:** Added side-by-side Choropleth maps to show how these attributes are distributed globally.
 * **Color Scheme:** Implemented intentional, data-driven color scales 
 * **Attribute Selection Menu:** Built a UI dropdown/menu allowing users to dynamically swap out the dataset attributes being visualized.
+* **Detail-on-Demand Tooltips:** Added interactive tooltips/hover effects to the histograms, scatterplot, and map to display specific country names and exact values.
 * **Time Slider:** Added a time slider to allow users to select which year to see data for
 
 ### 🚧 Work in Progress
-- [ ] **Level 4: Detail-on-Demand.** Add interactive tooltips/hover effects to the histograms, scatterplot, and map to display specific country names and exact values.
 - [ ] **Level 5: Brushing & Linking.** Implement D3 brushing on the distribution and scatterplot visualizations to filter the selected countries across *all* active charts.
