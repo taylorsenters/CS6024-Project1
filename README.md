@@ -23,6 +23,4 @@ This project is an interactive web-based data visualization dashboard built with
 * **Attribute Selection Menu:** Built a UI dropdown/menu allowing users to dynamically swap out the dataset attributes being visualized.
 * **Detail-on-Demand Tooltips:** Added interactive tooltips/hover effects to the histograms, scatterplot, and map to display specific country names and exact values.
 * **Time Slider:** Added a time slider to allow users to select which year to see data for
-
-### 🚧 Work in Progress
-- [ ] **Level 5: Brushing & Linking.** Implement D3 brushing on the distribution and scatterplot visualizations to filter the selected countries across *all* active charts.
+* ** Brushing & Linking.** Implemented D3 brushing and linking on the visualizations to highlight/filter the selected countries across active charts.

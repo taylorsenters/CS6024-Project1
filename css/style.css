@@ -18,7 +18,7 @@
   padding: 0;
 }
 
-
+/* main layout */
 body, html {
     /* sets full viewport height and width */
     height: 100vh;
@@ -28,14 +28,16 @@ body, html {
     background-color: var(--bg-app);
 }
 
+/* container for entire app */
 .dashboard {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* stack header on top of grid */
     height: 100%;
     padding: var(--gap-size);
     gap: var(--gap-size);
 }
 
+/* header and headings */
 .main-header {
     display: flex;
     flex-direction: column;
@@ -44,12 +46,12 @@ body, html {
     padding-bottom: 10px;
     border-bottom: 2px solid #e0e0e0;
     flex-shrink: 0;
-}
-    
+} 
 .main-header h1 { font-size: 1.5rem; color: var(--text-primary); margin-bottom: 4px; }
 .main-header h2 { font-size: 1.1rem; color: var(--text-primary); font-weight: 500; margin-bottom: 4px;}
 .main-header h3 { font-size: 0.9rem; color: var(--text-primary); opacity: 0.8; }
 
+/* ui controls (selection menu and year slider) */
 .selections {
     display: flex;
     align-items: center;
@@ -77,6 +79,7 @@ body, html {
     font-weight: bold;
 }
 
+/* dropdown meny styling */
 .selections select {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -99,6 +102,7 @@ body, html {
     box-shadow: 0 0 0 2px rgba(94m 170, 168, 0.2);
 }
 
+/* year sluder styling */
 .selections input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
@@ -111,19 +115,21 @@ body, html {
     outline: none;
 }
 
+/* slider track for chrome/safari */
 .selections input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
     height: 6px;
     background: var(--border-color);
     border-radius: 4px;
 }
+/* slider track for firefox */
 .selections input[type="range"]::-moz-range-track {
     width: 100%;
     height: 6px;
     background: var(--border-color);
     border-radius: 4px;
 }
-
+/* draggable circle for chrome/safari */
 .selections input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -135,6 +141,7 @@ body, html {
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     transition: transform 0.1s;
 }
+/* draggable circle for firefox */
 .selections input[type="range"]::-moz-range-thumb {
     height: 16px;
     width: 16px;
@@ -152,6 +159,31 @@ body, html {
     transform: scale(1.2);
 }
 
+/* clear button to clear any burshing/selections */
+.clear-button {
+    padding: 8px 16px;
+    background-color: #5EAAA8; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 35px;
+}
+/* styling for inactive button */
+.clear-button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+/* hover effect */
+.clear-button:not(:disabled):hover {
+    background-color: #056676; 
+}
+
+/* chart grid layout */
 .content-grid {
     display: grid;
     flex-grow: 1; 
@@ -162,13 +194,14 @@ body, html {
     grid-template-rows: repeat(2, minmax(0, 1fr));
 }
 
-/* layout visualization to fit grid */
+/* layout visualizations to fit grid */
 #map-1 { grid-column: 1; grid-row: 1; }
 #map-2 { grid-column: 2; grid-row: 1; }
 #scatter-plot { grid-column: 3; grid-row: 1 / -1; }
 #histogram-1 { grid-column: 1; grid-row: 2; }
 #histogram-2 { grid-column: 2; grid-row: 2; }
 
+/* styling for chart containers */
 .histogram, .scatterplot, .map {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -187,16 +220,17 @@ body, html {
     overflow: hidden;
 }
 
+/* tooltip styling */
 #tooltip {
-    position: absolute;
+    position: absolute; /* allows tooltip to hover */
     opacity: 0;
     background: white;
     padding: 10px;
     border: 1px solid #d3d3d3;
     border-radius: 4px;
-    pointer-events: none;
+    pointer-events: none; /* won't intercept mouse events */
     font-size: 13px;
     color: #333;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
+    z-index: 1000; /* forces tooltip to render above everything else */
 }
