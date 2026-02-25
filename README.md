@@ -4,23 +4,21 @@
 **Live Application:** [https://taylorsenters-cs-6024-project1.vercel.app/](https://taylorsenters-cs-6024-project1.vercel.app/) 
 
 ## Project Overview
-This project is an interactive web-based data visualization dashboard built with **D3.js, JavaScript, HTML, and CSS**. It allows a general audience to explore and compare country-level data across various metrics. The dashboard features multiple linked views, enabling users to analyze distributions, correlations, and spatial patterns across the globe.
+This project is an interactive web-based data visualization dashboard built with D3.js, JavaScript, HTML, and CSS. It allows a general audience to explore and compare country-level data across various metrics. The dashboard features multiple linked views, enabling users to analyze distributions, correlations, and spatial patterns across the globe.
 
 ## Data Source
 * **Provider:** [Our World in Data](https://ourworldindata.org/)
 * **Format:** CSV (Pre-processed and merged using the common 'FIPS' country code identifier).
-* **Attributes Explored:** Social Factors (Years of Schooling) and Women's Health Outcomes (Maternal Mortality Ratio (MMR))
+* **Attributes Explored:** Social Factors (Average Years of Schooling, Adolescent Birth Rate, Women in Tertiary Education) and Women's Health Factors (Maternal Mortality Ratio (MMR), Antenatal Care Coverage, Anemia Prevalence in Women)
 * **Spatial Data:** GeoJSON world map data for choropleth visualization.
 
-## Current Progress & Features
-
-### ✅ Implemented 
+## Main Features
 * **Application Layout:** Clean, single-page dashboard layout built with CSS (no scrolling required to compare charts).
-* **Distribution Views (Visualizations 1 & 2):** Two histograms/bar charts displaying the distribution of the selected quantitative attributes.
-* **Correlation View (Visualization 3):** A scatterplot comparing the two selected attributes against each other to identify potential correlations.
-* **Spatial Distribution:** Added side-by-side Choropleth maps to show how these attributes are distributed globally.
-* **Color Scheme:** Implemented intentional, data-driven color scales 
-* **Attribute Selection Menu:** Built a UI dropdown/menu allowing users to dynamically swap out the dataset attributes being visualized.
-* **Detail-on-Demand Tooltips:** Added interactive tooltips/hover effects to the histograms, scatterplot, and map to display specific country names and exact values.
-* **Time Slider:** Added a time slider to allow users to select which year to see data for
-* ** Brushing & Linking.** Implemented D3 brushing and linking on the visualizations to highlight/filter the selected countries across active charts.
+* **Distribution Views:** Two histograms displaying the distribution of the selected quantitative attributes.
+* **Correlation View:** A scatterplot comparing the two selected attributes against each other to identify potential correlations.
+* **Spatial Distribution:** Side-by-side Choropleth maps showing how these attributes are distributed globally.
+* **Color Scheme:** Intentional, data-driven color scales
+* **Attribute Selection Menu:** A UI dropdown/menu allowing users to dynamically swap out the dataset attributes being visualized.
+* **Detail-on-Demand Tooltips:** Interactive tooltips/hover effects for the histograms, scatterplot, and maps to display specific country names and exact values.
+* **Time Slider:** A time slider allowing users to select which year to see data for (Time range: 2000 to 2020)
+* **Brushing & Linking:** D3 brushing and linking on the visualizations to highlight/filter the selected countries across all charts.
